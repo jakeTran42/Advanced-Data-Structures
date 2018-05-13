@@ -162,6 +162,8 @@ class BinaryMinHeap(object):
         return (index << 1) + 2  # Shift left to multiply by 2
 
 
+
+
 def test_binary_min_heap():
     # Create a binary min heap of 7 items
     items = [9, 25, 86, 3, 29, 5, 55]
