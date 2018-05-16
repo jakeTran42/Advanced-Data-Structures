@@ -3,7 +3,7 @@ import time
 
 from typing import Tuple
 
-class TrieNode(object):
+class Node(object):
 
     def __init__(self, char: str):
         self.char = char
@@ -11,7 +11,7 @@ class TrieNode(object):
 
         #is it a word?
         self.word_finished = False
-    
+        self.data = ''
 
 def insert(root, word: str):
     node = root
@@ -24,37 +24,38 @@ def insert(root, word: str):
                 break
         
         if not found:
-            new_node = TrieNode(char)
+            new_node = Node(char)
             node.children.append(new_node)
-            print('appended: ', (new_node.char))
+            # print('appended: ', (new_node.char))
             node = new_node
         
     node.word_finished =  True
+    node.data = word
+    # print(node.word_finished, node.data)
 
 
+def find_prefix(root, prefix):
+    all_words = list()
 
-def find_prefix(root, prefix: str):
-
-    node = root
-    complete_word = ''
-    completed_words = []
-
+    if prefix == None or prefix == '':
+        raise ValueError('Require a Prefix')
     if not root.children:
-        return False, 0
+        raise ValueError('No letters inside Trie')
+    
+    current_node = root
 
     for char in prefix:
-        char_not_found = True
-        for child in node.children:
+        for child in current_node.children:
             if child.char == char:
-                # print('found: ', char)
-                char_not_found = False
-                node = child
-                break
-        if char_not_found:
-            return False, 0
+                current_node = child
+                if current_node.word_finished == True:
+                    all_words.append(current_node.data)
+    
+    return all_words
 
-    return completed_words
 
+
+                
 def get_words(filename):
     with open(filename, 'r') as file:
         words_list = file.read().lower().split()
@@ -65,7 +66,6 @@ def benchmark(root, prefixes):
     time_start = time.time()
 
     for prefix in prefixes:
-        print(prefix)
         print(find_prefix(root, prefix))
 
     time_end = time.time()
@@ -73,16 +73,17 @@ def benchmark(root, prefixes):
 
 
 if __name__ == "__main__":
-    root = TrieNode('*')
+    root = Node('*')
 
     # all_words = get_words('/usr/share/dict/words')
     all_words = get_words('dummy.txt')
-    # all_prefixes = set([word[:len(word)//2] for word in all_words])
-    all_prefixes = ['hello', 'i']
-    # print(len(all_prefixes))
+    # all_prefixes =
+    #  set([word[:len(word)//2] for word in all_words])
+    all_prefixes = ['hello']
+    
     for word in all_words:
         insert(root, word)
-    
-    print(benchmark(root, all_prefixes))
+
+    # print(benchmark(root, all_prefixes))
     
     

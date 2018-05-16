@@ -1,87 +1,79 @@
-from typing import Tuple
+import time
+
+class TrieNode:
+    def __init__(self):
+        self.end = False
+        self.children = {}
+
+    def all_words(self, prefix):
+        if self.end:
+            yield prefix
+
+        for letter, child in self.children.items():
+            yield from child.all_words(prefix + letter)
+
+class Trie:
+    # existing methods here
+    def __init__(self):
+        self.root = TrieNode()
+
+    def insert(self, word):
+        curr = self.root
+        for letter in word:
+            node = curr.children.get(letter)
+            if not node:
+                node = TrieNode()
+                curr.children[letter] = node
+            curr = node
+        curr.end = True
+
+    def all_words_beginning_with_prefix(self, prefix):
+        cur = self.root
+        for c in prefix:
+            cur = cur.children.get(c)
+            if cur is None:
+                return  # No words with given prefix
+
+        yield from cur.all_words(prefix)
+
+trie = Trie()
+# trie.insert('foobar')
+# trie.insert('foo')
+# trie.insert('bar')
+# trie.insert('foob')
+# trie.insert('foof')
+
+# print(list(trie.all_words_beginning_with_prefix('foo')))
+
+def get_words(filename):
+    with open(filename, 'r') as file:
+        words_list = file.read().lower().split()
+    return words_list
 
 
-class TrieNode(object):
-    """
-    Our trie node implementation. Very basic. but does the job
-    """
-    
-    def __init__(self, char: str):
-        self.char = char
-        self.children = []
-        # Is it the last character of the word.`
-        self.word_finished = False
-        # How many times this character appeared in the addition process
-        self.counter = 1
-    
+def benchmark(prefixes): 
+    time_start = time.time()
 
-def add(root, word: str):
-    """
-    Adding a word in the trie structure
-    """
-    node = root
-    for char in word:
-        found_in_child = False
-        # Search for the character in the children of the present `node`
-        for child in node.children:
-            if child.char == char:
-                # We found it, increase the counter by 1 to keep track that another
-                # word has it as well
-                child.counter += 1
-                # And point the node to the child that contains this char
-                node = child
-                found_in_child = True
-                break
-        # We did not find it so add a new chlid
-        if not found_in_child:
-            new_node = TrieNode(char)
-            node.children.append(new_node)
-            # And then point node to the new child
-            node = new_node
-    # Everything finished. Mark it as the end of a word.
-    node.word_finished = True
+    for prefix in prefixes:
+        list(trie.all_words_beginning_with_prefix(prefix))
+
+    time_end = time.time()
+    return time_end - time_start
+
+# all_words = get_words('dummy.txt')
+all_words = get_words('words.txt')
+all_prefixes = set([word[:len(word)//2] for word in all_words])
+# all_prefixes = ['hello']
+
+time1 = time.time()
+for word in all_words:
+    # print('inserting ' + word)
+    trie.insert(word)
+
+# time1 = time.time()
+# print(list(trie.all_words_beginning_with_prefix('a')))
+# print(time.time() - time1)
 
 
-def find_prefix(root, prefix: str) -> Tuple[bool, int]:
-    """
-    Check and return 
-      1. If the prefix exsists in any of the words we added so far
-      2. If yes then how may words actually have the prefix
-    """
-    node = root
-    # If the root node has no children, then return False.
-    # Because it means we are trying to search in an empty trie
-    if not root.children:
-        return False, 0
-    for char in prefix:
-        char_not_found = True
-        # Search through all the children of the present `node`
-        for child in node.children:
-            if child.char == char:
-                # We found the char existing in the child.
-                char_not_found = False
-                # Assign node as the child containing the char and break
-                node = child
-                break
-        # Return False anyway when we did not find a char.
-        if char_not_found:
-            return False, 0
-    # Well, we are here means we have found the prefix. Return true to indicate that
-    # And also the counter of the last node. This indicates how many words have this
-    # prefix
-    return True, node.counter
-
-if __name__ == "__main__":
-    root = TrieNode('*')
-    add(root, "hackathon")
-    add(root, 'hacek')
-    add(root, 'hask')
-    add(root, 'hacks')
-    add(root, 'havk')
-    add(root, 'havks')
-
-    print(find_prefix(root, 'hac'))
-    print(find_prefix(root, 'hack'))
-    print(find_prefix(root, 'hackathon'))
-    print(find_prefix(root, 'ha'))
-    print(find_prefix(root, 'hammer'))
+# print('Done Insertion. Time is:', time.time() - time1)
+# print(benchmark(all_prefixes))
