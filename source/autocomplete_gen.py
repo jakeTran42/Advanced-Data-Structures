@@ -86,7 +86,7 @@ def benchmark(trie, prefixes):
 
     for prefix in prefixes:
         # return a generator object <node_object>, wrap it with list() method to get raw data
-        print(trie.get_prefix(prefix))
+        trie.get_prefix(prefix)
 
     benchmark_time_is_word = time.time()
     return benchmark_time_is_word - benchmark_time_start
