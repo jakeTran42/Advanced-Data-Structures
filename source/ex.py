@@ -34,24 +34,24 @@ def insert(root, word: str):
     # print(node.word_finished, node.data)
 
 
-def find_prefix(root, prefix):
-    all_words = list()
+# def find_prefix(root, prefix):
+#     all_words = list()
 
-    if prefix == None or prefix == '':
-        raise ValueError('Require a Prefix')
-    if not root.children:
-        raise ValueError('No letters inside Trie')
+#     if prefix == None or prefix == '':
+#         raise ValueError('Require a Prefix')
+#     if not root.children:
+#         raise ValueError('No letters inside Trie')
     
-    current_node = root
+#     current_node = root
 
-    for char in prefix:
-        for child in current_node.children:
-            if child.char == char:
-                current_node = child
-                if current_node.word_finished == True:
-                    all_words.append(current_node.data)
+#     for char in prefix:
+#         for child in current_node.children:
+#             if child.char == char:
+#                 current_node = child
+#                 if current_node.word_finished == True:
+#                     all_words.append(current_node.data)
     
-    return all_words
+#     return all_words
 
 
 
