@@ -24,7 +24,8 @@ class Node:
 
         # recursive call through all children and its sub children of the current node
         for char, child in self.children.items():
-            yield from child.all_sub_node(prefix + char)
+            next_prefix = prefix + char
+            yield from child.all_sub_node(next_prefix)
 
 
 class Trie:
