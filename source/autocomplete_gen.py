@@ -101,12 +101,12 @@ def main():
 
     '''Getting dictionary words and prefixes'''
 
-    all_words = get_words('/usr/share/dict/words')
+    all_words = get_words('your_text_file_here')
     all_prefixes = set([word[:len(word)//2] for word in all_words])
 
     '''Starting Insertion'''
 
-    print('Inserting', len(all_words), 'Words')
+    print('\nInserting', len(all_words), 'Words')
     inserting_time_start = time.time()
     for word in all_words:
         trie.insert(word)
@@ -116,10 +116,11 @@ def main():
     '''Finding time for one prefix'''
 
     # time1 = time.time()
-    # print(list(trie.get_prefix('a')))
+    # single_prefix = list(trie.get_prefix('as'))
     # print(time.time() - time1)
+    # print(len(single_prefix))
 
-    '''Finding time for all prefixes (default 71000 prefixes iterated) below'''
+    '''Finding time for all prefixes'''
 
     total_time = 0
     count = 0
@@ -128,7 +129,7 @@ def main():
         count += 1
     average_time = total_time / count
 
-    print('Finish Benchmarking', len(all_prefixes), 'Words', 'x', count, 'times')
-    print('Average Time:', average_time, 'seconds')
+    print('Finish Benchmarking', len(all_prefixes), 'Words x', count, 'times')
+    print('Average Time:', average_time, 'seconds\n')
 
 main()
