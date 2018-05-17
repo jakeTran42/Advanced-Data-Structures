@@ -47,7 +47,7 @@ class Trie:
                 node = Node()
                 current_node.children[char] = node
 
-            #if node does exist for that character then set current node to the children node of that char
+            #if node does exist
             current_node = node
         # set the last node to True because the word is finished inserting
         current_node.is_word = True
