@@ -5,7 +5,8 @@ class Node:
     '''
         is_word == if the node is a word
         children == dict of {character: <node_object>}
-        counter == count up how many times the letter is inserted to how many word can given prefix have
+        counter == count up how many times the letter is inserted so we can get all possible word from that
+                    node's char
 
         all_sub_node recursively call its sub-nodes to get all words until there is no more node
         and yield from will stop.
@@ -89,8 +90,8 @@ def benchmark(trie, prefixes):
         # return a generator object <node_object>, wrap it with list() method to get raw data
         trie.get_prefix(prefix)
 
-    benchmark_time_is_word = time.time()
-    return benchmark_time_is_word - benchmark_time_start
+    benchmark_time_end = time.time()
+    return benchmark_time_end - benchmark_time_start
 
 
 def main():
