@@ -22,8 +22,8 @@ def fibonacci(n):
         raise ValueError('fibonacci is undefined for n = {!r}'.format(n))
     # Implement fibonacci_recursive, _memoized, and _dynamic below, then
     # change this to call your implementation to verify it passes all tests
-    # return fibonacci_recursive(n)
-    return fibonacci_memoized(n, memo={})
+    return fibonacci_recursive(n)
+    # return fibonacci_memoized(n, memo={})
     # return fibonacci_dynamic(n)
 
 @Memoize
