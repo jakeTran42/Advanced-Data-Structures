@@ -22,9 +22,9 @@ def fibonacci(n):
         raise ValueError('fibonacci is undefined for n = {!r}'.format(n))
     # Implement fibonacci_recursive, _memoized, and _dynamic below, then
     # change this to call your implementation to verify it passes all tests
-    return fibonacci_recursive(n)
+    # return fibonacci_recursive(n)
     # return fibonacci_memoized(n, memo={})
-    # return fibonacci_dynamic(n)
+    return fibonacci_dynamic(n)
 
 @Memoize
 def fibonacci_recursive(n):
@@ -56,26 +56,30 @@ def fibonacci_memoized(n, memo):
         return memo[n]
 
 
-def fibonacci_dynamic(n, table=[]):
-    # TODO: Implement the fibonacci function with dynamic programming here
-    # Once implemented, change fibonacci (above) to call fibonacci_dynamic
-    # to verify that your dynamic implementation passes all test cases
-    while len(table) < n+1: table.append(0)
+# def fibonacci_dynamic(n, table=[]):
+#     # TODO: Implement the fibonacci function with dynamic programming here
+#     # Once implemented, change fibonacci (above) to call fibonacci_dynamic
+#     # to verify that your dynamic implementation passes all test cases
+#     while len(table) < n+1: table.append(0)
 
-    if n <= 1:
-       return n
-    else:
-       if table[n-1] ==  0:
-           table[n-1] = fibonacci_dynamic(n-1)
+#     if n <= 1:
+#        return n
+#     else:
+#        if table[n-1] ==  0:
+#            table[n-1] = fibonacci_dynamic(n-1)
 
-       if table[n-2] ==  0:
-           table[n-2] = fibonacci_dynamic(n-2)
+#        if table[n-2] ==  0:
+#            table[n-2] = fibonacci_dynamic(n-2)
 
-       table[n] = table[n-2] + table[n-1]
+#        table[n] = table[n-2] + table[n-1]
 
-    return table[n]
+#     return table[n]
 
-    
+def fibonacci_dynamic(seq):
+    a, b = 0, 1
+    for _ in range(seq):
+        a, b = b, a + b
+    return a
 
 
 def main():
